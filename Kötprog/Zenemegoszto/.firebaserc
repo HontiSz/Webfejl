@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "zenemegoszto-533d3": {
+      "hosting": {
+        "Zenemegoszto": [
+          "zenemegoszto-533d3"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "zenemegoszto-533d3"
+  }
+}
