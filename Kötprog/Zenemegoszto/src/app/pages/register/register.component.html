@@ -1,1 +1,26 @@
-<p>register works!</p>
+<div class="container">
+    <h2>Regisztráció</h2>
+    <form [formGroup]="register" (ngSubmit)="onRegistration()">
+        <table>
+            <tr>
+                <td><label for="username">Felhasználónév:</label></td>
+                <td><input type="text" formControlName="username" required /></td>
+            </tr>
+            <tr>
+                <td><label for="password">Jelszó:</label></td>
+                <td><input type="password" formControlName="password" required /></td>
+            </tr>
+            <tr>
+                <td><label for="passwordCheck">Jelszó megerősítése:</label></td>
+                <td><input type="password" formControlName="passwordCheck" required /></td>
+            </tr>
+            <tr>
+                <td><label for="email">Email-cím:</label></td>
+                <td><input type="email" formControlName="email" required /></td>
+            </tr>
+        </table>
+        <div></div>
+        <div><button type="submit">Regisztráció</button></div>
+        <div><button (click)="onBack()">Vissza</button></div>
+    </form>
+</div>

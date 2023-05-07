@@ -1,1 +1,14 @@
-<p>login works!</p>
+<div class="container">
+    <table>
+        <tr>
+            <td><label for="email">Email-cím:</label></td>
+            <td><input type="email" [formControl]="email" /></td>
+        </tr>
+        <tr>
+            <td><label for="password">Jelszó:</label></td>
+            <td><input type="password" [formControl]="password" /></td>
+        </tr>
+    </table>
+    <div><button (click)="onLogin()">Bejelentkezés</button></div>
+    <div><button (click)="onBack()">Vissza</button></div>
+</div>

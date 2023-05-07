@@ -1,1 +1,26 @@
-<p>upload works!</p>
+<div class="container">
+    <h1>Zene feltöltése</h1>
+    <form [formGroup]="music">
+        <table>
+            <tr>
+                <td colspan="2"><input type="file" class="music" (change)="onFileSelected($event)"/></td>
+            </tr>
+            <tr>
+                <td><label for="name">Név:</label></td>
+                <td><input type="text" formControlName="name" /></td>
+            </tr>
+            <tr>
+                <td><label for="selectedItem">Stílus:</label></td>
+                <td><select formControlName="style">
+                        <option *ngFor="let style of styles" [value]="style">{{style}}</option>
+                    </select></td>
+            </tr>
+            <tr>
+                <td><label for="artist">Előadó:</label></td>
+                <td><input type="text" formControlName="artist" /></td>
+            </tr>
+        </table>
+    </form>
+    <div><button (click)="saveMusic()">Mentés</button></div>
+    <div><button (click)="onCancel()">Mégse</button></div>
+</div>

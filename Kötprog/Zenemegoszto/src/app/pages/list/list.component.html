@@ -1,1 +1,40 @@
-<p>list works!</p>
+<div class="container">
+    <table mat-table [dataSource]="music_dataSource">
+      <ng-container matColumnDef="artist">
+        <th mat-header-cell *matHeaderCellDef>Előadó</th>
+        <td mat-cell *matCellDef="let music">{{music.artist}}</td>
+      </ng-container>
+      <ng-container matColumnDef="style">
+        <th mat-header-cell *matHeaderCellDef>Stílus</th>
+        <td mat-cell *matCellDef="let music">{{music.style}}</td>
+      </ng-container>
+      <ng-container matColumnDef="title">
+        <th mat-header-cell *matHeaderCellDef>Cím</th>
+        <td mat-cell *matCellDef="let music">{{music.title}}</td>
+      </ng-container>
+      <ng-container matColumnDef="username">
+        <th mat-header-cell *matHeaderCellDef>Feltöltő</th>
+        <td mat-cell *matCellDef="let music">{{music.username}}</td>
+      </ng-container>
+      <ng-container matColumnDef="download">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let music"><button mat-icon-button (click)="onDownload(music)"><mat-icon>get_app</mat-icon></button></td>
+      </ng-container>
+      <ng-container matColumnDef="delete">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let music">
+          <button mat-icon-button color="warn" *ngIf="music.username == currentUsername" (click)="onDelete(music)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="headerRowDef"></tr>
+      <tr mat-row *matRowDef="let music; columns: ['artist', 'style', 'title', 'username', 'download', 'delete']"></tr>
+    </table>
+    <button mat-button (click)="onUpload()">Zene feltöltése</button>
+    <button mat-button (click)="onLogout()">Kijelentkezés</button>
+  </div>
+  
+  
+  
+  

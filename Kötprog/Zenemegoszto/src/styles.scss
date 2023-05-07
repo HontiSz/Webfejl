@@ -1,1 +1,37 @@
-/* You can add global styles to this file, and also import other style files */
+@mixin text-stroke($width, $color) {
+    -webkit-text-stroke: $width $color;
+    text-stroke: $width $color;
+}
+
+.container {
+    margin: 0;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    background-image: url("./assets/bg.png");
+    background-repeat: repeat;
+    background-position: center;
+    background-size: 10%;
+    height: 100%;
+}
+
+button {
+    color: whitesmoke;
+    background-color: black;
+}
+
+h1 {
+    @include text-stroke(1px, black);
+}
+
+label {
+    font-size: x-large;
+    @include text-stroke(0.7px, black);
+}
+
+p {
+    font-size: larger;
+    @include text-stroke(0.55px, black);
+}
