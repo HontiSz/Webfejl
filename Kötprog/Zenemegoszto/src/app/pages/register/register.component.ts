@@ -68,6 +68,7 @@ export class RegisterComponent implements OnInit {
           verticalPosition: 'top'
         });
         console.error(error);
+        return;
       });
 
       this.router.navigate(['/pages/login']);
