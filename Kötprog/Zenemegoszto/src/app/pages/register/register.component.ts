@@ -53,7 +53,7 @@ export class RegisterComponent implements OnInit {
 
       this.router.navigate(['/pages/login']);
     }).catch(error => {
-      console.log(error);
+      console.error(error);
     });
   }
 

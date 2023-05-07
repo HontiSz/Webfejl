@@ -17,11 +17,11 @@
         <td mat-cell *matCellDef="let music">{{music.username}}</td>
       </ng-container>
       <ng-container matColumnDef="download">
-        <th mat-header-cell *matHeaderCellDef></th>
+        <th mat-header-cell *matHeaderCellDef>Letöltés:</th>
         <td mat-cell *matCellDef="let music"><button mat-icon-button (click)="onDownload(music)"><mat-icon>get_app</mat-icon></button></td>
       </ng-container>
       <ng-container matColumnDef="delete">
-        <th mat-header-cell *matHeaderCellDef></th>
+        <th mat-header-cell *matHeaderCellDef>Törlés:</th>
         <td mat-cell *matCellDef="let music">
           <button mat-icon-button color="warn" *ngIf="music.username == currentUsername" (click)="onDelete(music)">
             <mat-icon>delete</mat-icon>
@@ -31,7 +31,9 @@
       <tr mat-header-row *matHeaderRowDef="headerRowDef"></tr>
       <tr mat-row *matRowDef="let music; columns: ['artist', 'style', 'title', 'username', 'download', 'delete']"></tr>
     </table>
-    <button mat-button (click)="onUpload()">Zene feltöltése</button>
+    <button mat-button (click)="onSelf()" *ngIf="!this.self">Saját zenék megjelenítése</button>
+    <button mat-button (click)="onSelf()" *ngIf="this.self">Minden zene megjelenítése</button>
+    <button mat-raised-button (click)="onUpload()">Zene feltöltése</button>
     <button mat-button (click)="onLogout()">Kijelentkezés</button>
   </div>
   

@@ -6,6 +6,8 @@ import { MusicService } from 'src/app/shared/music.service';
 import { HttpClient } from '@angular/common/http';
 import { UserService } from 'src/app/shared/user.service';
 import { MatTableDataSource } from '@angular/material/table';
+import { MatDialog } from '@angular/material/dialog';
+import { DeleteModalComponent } from 'src/app/shared/modal/delete-modal/delete-modal.component';
 
 @Component({
   selector: 'app-list',
@@ -19,36 +21,69 @@ export class ListComponent implements OnInit {
   currentUsername?: string;
   music_dataSource: MatTableDataSource<Musics> = new MatTableDataSource<Musics>([]);
   headerRowDef: string[] = [];
-  
+  self?: boolean;
+
 
   constructor(
     private router: Router,
     private authService: AuthService,
     private musicService: MusicService,
     private http: HttpClient,
-    private userService: UserService
-  ) {  }
+    private userService: UserService,
+    private dialog: MatDialog
+  ) { }
 
   ngOnInit(): void {
     console.log('list loaded');
-    this.musicService.loadAllMusicMeta().subscribe((data: Array<Musics>) => {
-      this.music_array = data;
+    this.onSelf();
+    this.authService.isLoggedIn().subscribe(user => {
+      this.loggedInUser = user;
+    });
+  }
+
+  onSelf() {
+    if (this.self) {
+      this.self = false;
 
       let user = (JSON.parse(localStorage.getItem("user") as string));
 
       this.userService.getUserById(user.uid).subscribe(data => {
         this.currentUsername = data.data()?.username;
+
+        if(!this.currentUsername) {
+          return;
+        }
+
+        this.musicService.loadAllMusicMeta().subscribe((data: Array<Musics>) => {
+          this.music_array = data;
+          this.headerRowDef = ['artist', 'style', 'title', 'username', 'download', 'delete'];
+          this.music_dataSource.data = this.music_array;
+        }, error => {
+          console.error(error);
+        });
       });
+    }
+    else {
+      this.self = true;
 
-      if(this.music_array) {
-        this.music_dataSource = new MatTableDataSource(this.music_array);
-      }
+      let user = (JSON.parse(localStorage.getItem("user") as string));
 
-      this.headerRowDef = ['artist', 'style', 'title', 'username', 'download', 'delete'];
-    });
-    this.authService.isLoggedIn().subscribe(user => {
-      this.loggedInUser = user;
-    });
+      this.userService.getUserById(user.uid).subscribe(data => {
+        this.currentUsername = data.data()?.username;
+
+        if(!this.currentUsername) {
+          return;
+        }
+
+        this.musicService.loadMusicByUsername(this.currentUsername).subscribe((data: Array<Musics>) => {
+          this.music_array = data;
+          this.headerRowDef = ['artist', 'style', 'title', 'username', 'download', 'delete'];
+          this.music_dataSource.data = this.music_array;
+        }, error => {
+          console.error(error);
+        });
+      });
+    }
   }
 
   onDownload(music: Musics) {
@@ -60,16 +95,25 @@ export class ListComponent implements OnInit {
   }
 
   onDelete(music: Musics) {
-    this.musicService.deleteMusic(music).subscribe(asd => {
-      console.log('music deleted successfully');
-    }, error => {
-      console.error(error);
+    const dialogRef = this.dialog.open(DeleteModalComponent, {
+      width: '250px',
+      data: { musicTitle: music.title }
     });
 
-    this.musicService.deleteMusicMeta(music).then(cred => {
-      console.log('meta deleted successfully');
-    }).catch(error => {
-      console.error(error);
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.musicService.deleteMusic(music).subscribe(asd => {
+          console.log('music deleted successfully');
+        }, error => {
+          console.error(error);
+        });
+
+        this.musicService.deleteMusicMeta(music).then(cred => {
+          console.log('meta deleted successfully');
+        }).catch(error => {
+          console.error(error);
+        });
+      }
     });
   }
 

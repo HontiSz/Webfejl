@@ -8,6 +8,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { ListRoutingModule } from './list-routing.module';
 import { ListComponent } from './list.component';
 import { HttpClientModule } from '@angular/common/http';
+import { MatDialogModule } from '@angular/material/dialog';
 
 
 @NgModule({
@@ -21,7 +22,8 @@ import { HttpClientModule } from '@angular/common/http';
     HttpClientModule,
     MatButtonModule,
     MatTableModule,
-    MatIconModule
+    MatIconModule,
+    MatDialogModule
   ]
 })
 export class ListModule { }

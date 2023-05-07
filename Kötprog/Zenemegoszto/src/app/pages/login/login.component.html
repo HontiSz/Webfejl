@@ -1,14 +1,14 @@
 <div class="container">
     <table>
         <tr>
-            <td><label for="email">Email-cím:</label></td>
-            <td><input type="email" [formControl]="email" /></td>
+            <td><input matInput type="email" placeholder="Email-cím" [formControl]="email" /></td>
         </tr>
         <tr>
-            <td><label for="password">Jelszó:</label></td>
-            <td><input type="password" [formControl]="password" /></td>
+            <td><input matInput type="password" placeholder="Jelszó" [formControl]="password" /></td>
         </tr>
     </table>
-    <div><button (click)="onLogin()">Bejelentkezés</button></div>
-    <div><button (click)="onBack()">Vissza</button></div>
+    <div>
+        <button class="login-buttons" mat-button (click)="onLogin()">Bejelentkezés</button><br>
+        <button class="login-buttons" mat-button (click)="onBack()">Vissza</button>
+    </div>
 </div>

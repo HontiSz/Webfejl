@@ -22,7 +22,11 @@ export class MusicService {
   ) { }
 
   loadAllMusicMeta(): Observable<Array<Musics>> {
-    return this.afs.collection<Musics>(this.collectionName).valueChanges();
+    return this.afs.collection<Musics>(this.collectionName, ref => ref.orderBy('username')).valueChanges();
+  }
+
+  loadMusicByUsername(name: string) {
+    return this.afs.collection<Musics>(this.collectionName, ref => ref.where('username', '==', name)).valueChanges();
   }
 
   downloadMusic(music: Musics) {

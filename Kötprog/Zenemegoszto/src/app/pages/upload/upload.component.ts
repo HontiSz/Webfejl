@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { AuthService } from 'src/app/shared/auth.service';
 import { Music } from '../../shared/model/Music';
 import { MusicService } from 'src/app/shared/music.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-upload',
@@ -24,7 +25,13 @@ export class UploadComponent implements OnInit {
     file: new FormControl(null)
   });
 
-  constructor(private location: Location, private router: Router, private authService: AuthService, private musicService: MusicService) { }
+  constructor(
+    private location: Location, 
+    private router: Router, 
+    private authService: AuthService, 
+    private musicService: MusicService,
+    private snackBar: MatSnackBar
+    ) { }
 
   ngOnInit(): void {
     console.log('upload loaded');
@@ -49,14 +56,16 @@ export class UploadComponent implements OnInit {
     };
 
     if(music.name === '' || music.style === '' || music.artist === '' || !music.file) {
-      console.log('üres mezők');
-      //TODO: felugró ablak
+      this.snackBar.open('Minden mezőt töltsön ki!', 'Bezár', {
+        verticalPosition: 'top'
+      });
       return 
     }
 
     if(music.file.name.split('.')[music.file.name.split('.').length - 1] !== 'mp3') {
-      console.log('nem jó formátum');
-      //TODO: felugró ablak
+      this.snackBar.open('mp3 kiterjsztésű file-t adjon meg!', 'Bezár', {
+        verticalPosition: 'top'
+      });
       return
     }
 

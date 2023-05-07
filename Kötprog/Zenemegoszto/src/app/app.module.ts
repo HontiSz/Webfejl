@@ -9,10 +9,12 @@ import { provideFirestore,getFirestore } from '@angular/fire/firestore';
 import { provideStorage,getStorage } from '@angular/fire/storage';
 import { AngularFireModule } from '@angular/fire/compat';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { DeleteModalComponent } from './shared/modal/delete-modal/delete-modal.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    DeleteModalComponent
   ],
   imports: [
     BrowserModule,
