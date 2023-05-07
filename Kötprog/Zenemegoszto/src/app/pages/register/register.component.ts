@@ -1,6 +1,7 @@
 import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/shared/auth.service';
 import { User } from 'src/app/shared/model/User';
@@ -20,7 +21,13 @@ export class RegisterComponent implements OnInit {
     email: new FormControl('')
   });
 
-  constructor(private location: Location, private router: Router, private authService: AuthService, private userService: UserService) { }
+  constructor(
+    private location: Location, 
+    private router: Router, 
+    private authService: AuthService, 
+    private userService: UserService,
+    private snackBar: MatSnackBar
+    ) { }
 
   ngOnInit(): void {
     console.log('register loaded');
@@ -31,12 +38,21 @@ export class RegisterComponent implements OnInit {
     let passwordCheck_value = this.register.get('passwordCheck')?.value || '';
 
     if (password_value !== passwordCheck_value) {
-      console.log("nem megegyező jelszavak")
+      this.snackBar.open('A jelszavaknak meg kell egyezniük', 'Bezár', {
+        verticalPosition: 'top'
+      });
       return;
     }
 
     let username_value = this.register.get('username')?.value || '';
     let email_value = this.register.get('email')?.value || '';
+
+    if(username_value == '' || email_value == '' || password_value == '' || passwordCheck_value == '') {
+      this.snackBar.open('Minden mezőt kötelező kitölteni!', 'Bezár', {
+        verticalPosition: 'top'
+      });
+      return;
+    }
 
     this.authService.register(email_value, password_value).then(cred => {
       let user: User = {
@@ -48,11 +64,17 @@ export class RegisterComponent implements OnInit {
       this.userService.create(user).then(_ => {
         console.log('User added successfully');
       }).catch(error => {
+        this.snackBar.open(error, 'Bezár', {
+          verticalPosition: 'top'
+        });
         console.error(error);
       });
 
       this.router.navigate(['/pages/login']);
     }).catch(error => {
+      this.snackBar.open(error, 'Bezár', {
+        verticalPosition: 'top'
+      });
       console.error(error);
     });
   }

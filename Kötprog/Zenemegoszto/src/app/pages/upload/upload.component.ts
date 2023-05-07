@@ -1,8 +1,6 @@
 import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
-import { Router } from '@angular/router';
-import { AuthService } from 'src/app/shared/auth.service';
 import { Music } from '../../shared/model/Music';
 import { MusicService } from 'src/app/shared/music.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -27,8 +25,6 @@ export class UploadComponent implements OnInit {
 
   constructor(
     private location: Location, 
-    private router: Router, 
-    private authService: AuthService, 
     private musicService: MusicService,
     private snackBar: MatSnackBar
     ) { }
